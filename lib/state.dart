@@ -47,7 +47,6 @@ class AppState extends ChangeNotifier with WidgetsBindingObserver {
   Future<void> _init() async {
     await _loadSettings();
     await _loadRules();
-    await getNotificationPermission();
 
     // Save l10n required for background process after first frame when context is available
     WidgetsBinding.instance.addPostFrameCallback((_) async {
