@@ -21,3 +21,4 @@ Important:
 - For stable delivery, exclude the app from battery optimization on your device
 - Some Android vendors apply stricter background limits, so behavior may vary by firmware
 - Make sure required permissions (SMS/phone/notifications) are granted
+- The app's core functionality may trigger generic heuristic detections in some malware scanners, causing false positives

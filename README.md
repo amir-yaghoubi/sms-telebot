@@ -53,6 +53,8 @@ To verify if a specific message will be forwarded, simply enter the sender and/o
 
 * On Huawei EMUI or Xiaomi MIUI, you may need to turn off Verification Code Protection to forward SMS with verification codes, but be aware that doing so can pose a security risk.
 
+* Because the app can monitor and forward SMS, calls, and device events in the background, some malware scanners may flag it with generic heuristic detections. These are false positives: the app does not send any data to hidden or developer-controlled servers. Forwarded data is sent only according to user-configured rules and credentials.
+
 ## License
 Copyright (c) 2025-2026 Pavel D. (teslor)
 
