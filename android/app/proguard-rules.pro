@@ -1,11 +1,5 @@
-# Keep Android/WorkManager entrypoints
--keep class com.teslor.sms_telebot.BootReceiver { *; }
--keep class com.teslor.sms_telebot.CallReceiver { *; }
--keep class com.teslor.sms_telebot.ForegroundService { *; }
--keep class com.teslor.sms_telebot.MainActivity { *; }
--keep class com.teslor.sms_telebot.SmsReceiver { *; }
--keep class com.teslor.sms_telebot.SmsTelebotApp { *; }
--keep class * extends androidx.work.ListenableWorker { *; }
+# Keep project classes
+-keep class com.teslor.sms_telebot.** { *; }
 
 # Keep mail/activation classes
 -keep class com.sun.mail.** { *; }
