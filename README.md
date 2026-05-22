@@ -1,6 +1,7 @@
 # :outbox_tray: SMS Telebot
 [![Android](https://img.shields.io/badge/Android-34A853?style=flat&logo=android&logoColor=white)](https://developer.android.com/)
-[![License: AGPL v3](https://img.shields.io/badge/License-AGPL%20v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
+[![License: AGPL v3](https://img.shields.io/badge/License-AGPL%20v3-blue)](https://www.gnu.org/licenses/agpl-3.0)
+[![Privacy Policy](https://img.shields.io/badge/Privacy%20Policy-Verified-green)](./PRIVACY_POLICY.md)
 
 SMS Telebot is an Android app to automatically forward incoming SMS messages to Telegram bots or email via SMTP.  
 It can also notify you about incoming calls, low battery, and charger connection updates.
@@ -39,21 +40,21 @@ You can establish filters to control which messages are forwarded based on the s
 
 To verify if a specific message will be forwarded, simply enter the sender and/or message in the provided fields and check the results.
 
-# :memo: Important Notes
+# :warning: Important Notes
 
-* Android vendors may apply background limits and security policies differently, so behavior can vary between devices and OS versions.
+* **OS Variations**: Android vendors may apply background limits and security policies differently, so behavior can vary between devices and OS versions.
 
-* The app runs in the background, which may cause the system to restrict its functionality to conserve battery. To avoid this, consider disabling battery optimization for the app in your device settings.
+* **Battery Optimization**: The app runs in the background, which may cause the system to restrict its functionality to conserve battery. To avoid this, consider disabling battery optimization for the app in your device settings.
 
-* On firmwares with aggressive background management, often found on some Chinese-brand devices, enabling always-on background mode is recommended for reliable delivery. It keeps the app running as a foreground service with a persistent notification, making it much less likely that the system silently pauses monitoring.
+* **Chinese Firmwares**: On firmwares with aggressive background management (often found on some Chinese-brand devices), enabling always-on background mode is recommended for reliable delivery. It keeps the app running as a foreground service with a persistent notification, making it much less likely that the system silently pauses monitoring.
 
-* If you rely on low battery or charger connection alerts, always-on background mode is also highly recommended on any Android device because these notifications depend on system events.
+* **System Events**: If you rely on low battery or charger connection alerts, always-on background mode is also highly recommended because these notifications depend on system events.
 
-* Make sure to grant the necessary permissions for SMS/phone access and notifications.
+* **Permissions**: The app does not request all permissions at startup. They are requested on-demand, strictly when you enable a specific feature that requires them (e.g., enabling SMS forwarding will prompt for SMS access).
 
-* On Huawei EMUI or Xiaomi MIUI, you may need to turn off Verification Code Protection to forward SMS with verification codes, but be aware that doing so can pose a security risk.
+* **Verification Codes**: On Huawei EMUI or Xiaomi MIUI, you may need to turn off Verification Code Protection to forward SMS with verification codes, but be aware that doing so can pose a security risk.
 
-* Because the app can monitor and forward SMS, calls, and device events in the background, some malware scanners may flag it with generic heuristic detections. These are false positives: the app does not send any data to hidden or developer-controlled servers. Forwarded data is sent only according to user-configured rules and credentials.
+* **Antivirus Detections**: Because the app monitors and forwards background events, some malware scanners may flag it with generic heuristic detections (false positives). The app does not send any data to developer-controlled or hidden servers. All forwarded data is transmitted only according to user-configured rules and credentials. For more details, see the [Privacy Policy](PRIVACY_POLICY.md).
 
 ## License
 Copyright (c) 2025-2026 Pavel D. (teslor)
