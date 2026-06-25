@@ -346,28 +346,32 @@ class AppState extends ChangeNotifier with WidgetsBindingObserver {
   }
 
   Future<CallResult> updateControlBot({
-    required bool enabled,
-    required Map<String, dynamic> config,
+    bool? enabled,
+    Map<String, dynamic>? config,
   }) async {
-    final token = (config['token'] as String?) ?? '';
-    final chatId = (config['chatId'] as String?) ?? '';
-    final apiUrl = (config['apiUrl'] as String?) ?? '';
+    final resolvedEnabled = enabled ?? controlBotEnabled;
+    final resolvedConfig = config ?? controlBotConfig;
+    final token = (resolvedConfig['token'] as String?) ?? '';
+    final chatId = (resolvedConfig['chatId'] as String?) ?? '';
+    final apiUrl = (resolvedConfig['apiUrl'] as String?) ?? '';
 
-    // Save token to secure storage
+    // Save or delete token in secure storage
     if (token.isNotEmpty) {
       final secretResult = await saveSecretNative('control_bot', token);
       if (!secretResult.isSuccess) return secretResult;
+    } else {
+      await deleteSecretNative('control_bot');
     }
 
     // Save other settings to DB
     await MainDb.instance.saveSettings({
-      AppConst.controlBotEnabled: enabled ? '1' : '0',
+      AppConst.controlBotEnabled: resolvedEnabled ? '1' : '0',
       AppConst.controlBotChatId: chatId,
       AppConst.controlBotApiUrl: apiUrl,
     });
 
-    controlBotEnabled = enabled;
-    controlBotConfig = config;
+    controlBotEnabled = resolvedEnabled;
+    controlBotConfig = resolvedConfig;
     notifyListeners();
 
     // Signal native side to restart poller with new config
