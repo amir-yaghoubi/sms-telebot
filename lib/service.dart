@@ -247,3 +247,9 @@ void stopWorkersNative() {
     _mainChannel.invokeMethod<void>('stopWorkers').catchError((_, _) {}),
   );
 }
+
+Future<void> updateControlBotNative() async {
+  try {
+    await _mainChannel.invokeMethod<void>('updateControlBot');
+  } catch (_) {}
+}
