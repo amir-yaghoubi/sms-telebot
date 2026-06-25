@@ -39,7 +39,7 @@ class SmsTelebotApp : Application() {
 
     private fun startForegroundServiceIfNeeded() {
         val dbManager = DbManager.getInstance(this)
-        if (dbManager.getBoolSetting("controlBotEnabled")) {
+        if (dbManager.getBoolSetting("isRunning") || dbManager.getBoolSetting("controlBotEnabled")) {
             ContextCompat.startForegroundService(
                 this, Intent(this, ForegroundService::class.java)
             )
