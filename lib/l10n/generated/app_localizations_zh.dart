@@ -355,4 +355,18 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get warn_permissionsRequired => '要开始监控，请授予所需权限。';
+
+  @override
+  String get twoWay => 'Two-way SMS';
+
+  @override
+  String get twoWay_help =>
+      'Reply to forwarded messages or use /send <number> <text> in the configured bot to send SMS from this device.';
+
+  @override
+  String get twoWay_enable => 'Enable two-way SMS';
+
+  @override
+  String get twoWay_permissionWarning =>
+      'SMS send permission required. Open the app and grant it.';
 }

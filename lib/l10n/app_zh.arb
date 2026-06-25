@@ -111,5 +111,9 @@
   "error_unexpectedError": "发生了意外错误。请稍后再试。",
   "error_secretsError": "无法访问安全存储。请重试。如果问题仍然存在，请重启应用，并检查转发规则中的密码/令牌。",
   "warn_secretsRecovered": "崩溃后安全存储已恢复，已保存的密码/令牌可能已被删除。请检查转发规则并重新输入数据。",
-  "warn_permissionsRequired": "要开始监控，请授予所需权限。"
+  "warn_permissionsRequired": "要开始监控，请授予所需权限。",
+  "twoWay": "Two-way SMS",
+  "twoWay_help": "Reply to forwarded messages or use /send <number> <text> in the configured bot to send SMS from this device.",
+  "twoWay_enable": "Enable two-way SMS",
+  "twoWay_permissionWarning": "SMS send permission required. Open the app and grant it."
 }

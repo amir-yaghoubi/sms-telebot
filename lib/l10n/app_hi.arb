@@ -111,5 +111,9 @@
   "error_unexpectedError": "एक अप्रत्याशित त्रुटि हुई। कृपया बाद में प्रयास करें।",
   "error_secretsError": "सुरक्षित स्टोरेज तक पहुंच नहीं हो सकी। फिर से प्रयास करें। यदि त्रुटि बनी रहती है, तो ऐप को पुनः शुरू करें और फ़ॉरवर्डिंग नियमों में पासवर्ड/टोकन जांचें।",
   "warn_secretsRecovered": "क्रैश के बाद सुरक्षित स्टोरेज पुनर्प्राप्त किया गया; सहेजे गए पासवर्ड/टोकन हटाए गए हो सकते हैं। फ़ॉरवर्डिंग नियम जांचें और डेटा फिर से दर्ज करें।",
-  "warn_permissionsRequired": "निगरानी शुरू करने के लिए, कृपया आवश्यक अनुमति दें।"
+  "warn_permissionsRequired": "निगरानी शुरू करने के लिए, कृपया आवश्यक अनुमति दें।",
+  "twoWay": "Two-way SMS",
+  "twoWay_help": "Reply to forwarded messages or use /send <number> <text> in the configured bot to send SMS from this device.",
+  "twoWay_enable": "Enable two-way SMS",
+  "twoWay_permissionWarning": "SMS send permission required. Open the app and grant it."
 }

@@ -111,5 +111,9 @@
   "error_unexpectedError": "Ocurrió un error inesperado. Inténtelo más tarde.",
   "error_secretsError": "No se pudo acceder al almacenamiento seguro. Inténtelo de nuevo. Si el error persiste, reinicie la aplicación y verifique las contraseñas/tokens en las reglas de reenvío.",
   "warn_secretsRecovered": "El almacenamiento seguro se recuperó tras un fallo; es posible que se hayan eliminado las contraseñas/tokens guardados. Revise las reglas de reenvío y vuelva a introducir los datos.",
-  "warn_permissionsRequired": "Para iniciar el monitoreo, conceda los permisos necesarios."
+  "warn_permissionsRequired": "Para iniciar el monitoreo, conceda los permisos necesarios.",
+  "twoWay": "Two-way SMS",
+  "twoWay_help": "Reply to forwarded messages or use /send <number> <text> in the configured bot to send SMS from this device.",
+  "twoWay_enable": "Enable two-way SMS",
+  "twoWay_permissionWarning": "SMS send permission required. Open the app and grant it."
 }

@@ -368,4 +368,18 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get warn_permissionsRequired => '監視を開始するには、必要な権限を許可してください。';
+
+  @override
+  String get twoWay => 'Two-way SMS';
+
+  @override
+  String get twoWay_help =>
+      'Reply to forwarded messages or use /send <number> <text> in the configured bot to send SMS from this device.';
+
+  @override
+  String get twoWay_enable => 'Enable two-way SMS';
+
+  @override
+  String get twoWay_permissionWarning =>
+      'SMS send permission required. Open the app and grant it.';
 }
