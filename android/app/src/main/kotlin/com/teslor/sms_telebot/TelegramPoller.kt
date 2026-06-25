@@ -191,8 +191,18 @@ class TelegramPoller(
 
     private fun extractPhoneNumber(text: String): String? {
         val firstLine = text.lines().firstOrNull() ?: return null
-        val match = Regex("^[💬📞]\\s+([+\\d\\-()]+)\\s+🕒").find(firstLine)
-        return match?.groupValues?.getOrNull(1)?.trim()
+        val plain = firstLine.replace(Regex("<[^>]+>"), "").trim()
+        val match = Regex("^[💬📞]\\s+(.+?)(?:\\s+\\([^)]+\\))?\\s+🕒").find(plain)
+            ?: return null
+        val candidate = match.groupValues[1].trim()
+        if (!looksLikePhoneNumber(candidate)) return null
+        return candidate
+    }
+
+    private fun looksLikePhoneNumber(s: String): Boolean {
+        if (s.startsWith("+")) return true
+        val digits = s.count { it.isDigit() }
+        return digits >= 7
     }
 
     private fun sendSmsAndConfirm(
