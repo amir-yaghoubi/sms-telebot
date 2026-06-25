@@ -68,6 +68,7 @@ class ForegroundService : Service() {
             .build()
 
         startForeground(NOTIFICATION_ID, notification)
+        startPollerIfEnabled()
         return START_STICKY
     }
 
@@ -83,6 +84,9 @@ class ForegroundService : Service() {
     private fun startPollerIfEnabled() {
         val dbManager = DbManager.getInstance(this)
         if (!dbManager.getBoolSetting("controlBotEnabled")) return
+
+        val tokenResult = SecureStorageManager.getInstance(this).readSecret("control_bot")
+        if (!tokenResult.isSuccess || tokenResult.data.isNullOrBlank()) return
 
         pollerJob?.cancel()
         pollerJob = serviceScope.launch {
