@@ -113,7 +113,8 @@ class AppState extends ChangeNotifier with WidgetsBindingObserver {
     _stopStatsPolling();
     await MainDb.instance.saveBoolSetting('isRunning', false);
     stopWorkersNative();
-    stopForegroundServiceNative();
+    // Only stop the service if control bot isn't keeping it alive
+    if (!controlBotEnabled) stopForegroundServiceNative();
   }
 
   @override

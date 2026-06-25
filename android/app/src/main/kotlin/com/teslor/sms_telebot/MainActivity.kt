@@ -167,7 +167,7 @@ class MainActivity : FlutterActivity() {
                         val reloadIntent = Intent(this, ForegroundService::class.java).apply {
                             action = ForegroundService.ACTION_RELOAD_CONTROL_BOT
                         }
-                        ContextCompat.startForegroundService(this, reloadIntent)
+                        startService(reloadIntent)
                         result.success(null)
                     }
 

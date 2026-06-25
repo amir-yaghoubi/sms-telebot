@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import '../l10n/generated/app_localizations.dart';
 import '../state.dart';
@@ -49,8 +50,12 @@ class _ControlBotSectionState extends State<ControlBotSection> {
   }
 
   Future<void> _checkSmsPermission() async {
-    final granted = await getSmsPermission();
-    if (mounted) setState(() => _hasSmsPermission = granted);
+    final status = await Permission.sms.status;
+    if (mounted) {
+      setState(() {
+        _hasSmsPermission = status.isGranted;
+      });
+    }
   }
 
   void _onChanged() {
