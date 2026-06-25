@@ -65,12 +65,12 @@ class TelegramPoller(
                 val updates = fetchUpdates(token, chatId, apiUrl, offset)
                 for (update in updates) {
                     val updateId = update.getLong("update_id")
+                    offset = updateId + 1
+                    dbManager.saveSetting("controlBotUpdateOffset", offset.toString())
                     val message = update.optJSONObject("message") ?: continue
                     val msgChatId = message.optJSONObject("chat")?.optLong("id") ?: continue
                     if (msgChatId.toString() != chatId) continue  // security: ignore other chats
                     processMessage(token, chatId, apiUrl, msgChatId, message)
-                    offset = updateId + 1
-                    dbManager.saveSetting("controlBotUpdateOffset", offset.toString())
                 }
             } catch (e: CancellationException) {
                 Log.i(TAG, "Polling cancelled")
