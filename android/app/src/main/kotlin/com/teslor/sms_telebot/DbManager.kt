@@ -89,6 +89,17 @@ class DbManager private constructor(private val context: Context) {
         return getSetting(key)?.let { it == "1" || it.equals("true", ignoreCase = true) } ?: defaultValue
     }
 
+    // Write a setting from native side (used for polling offset persistence)
+    fun saveSetting(key: String, value: String) {
+        withDatabase { db ->
+            val values = android.content.ContentValues().apply {
+                put("key", key)
+                put("value", value)
+            }
+            db.insertWithOnConflict("app_settings", null, values, android.database.sqlite.SQLiteDatabase.CONFLICT_REPLACE)
+        }
+    }
+
     // ================================================================================
     // FORWARDING_RULES
     // ================================================================================

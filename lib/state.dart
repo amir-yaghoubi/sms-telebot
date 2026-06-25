@@ -22,6 +22,10 @@ class AppState extends ChangeNotifier with WidgetsBindingObserver {
   bool enableForeground = false;
   String deviceLabel = '';
 
+  // Control bot (two-way SMS)
+  bool controlBotEnabled = false;
+  Map<String, dynamic> controlBotConfig = {};
+
   // Rule list
   List<Map<String, dynamic>> rules = [];
   Map<String, dynamic>? selectedRule;
@@ -75,6 +79,9 @@ class AppState extends ChangeNotifier with WidgetsBindingObserver {
       _startStatsPolling();
       if (enableForeground) await startForegroundServiceNative();
     }
+    if (controlBotEnabled && !enableForeground) {
+      await startForegroundServiceNative();
+    }
   }
 
   void _startStatsPolling() {
@@ -106,7 +113,8 @@ class AppState extends ChangeNotifier with WidgetsBindingObserver {
     _stopStatsPolling();
     await MainDb.instance.saveBoolSetting('isRunning', false);
     stopWorkersNative();
-    stopForegroundServiceNative();
+    // Only stop the service if control bot isn't keeping it alive
+    if (!controlBotEnabled) stopForegroundServiceNative();
   }
 
   @override
@@ -133,6 +141,15 @@ class AppState extends ChangeNotifier with WidgetsBindingObserver {
     notifyChargerState = settings['notifyChargerState'] == '1';
     enableForeground = settings['enableForeground'] == '1';
     deviceLabel = settings['deviceLabel'] ?? '';
+    controlBotEnabled = settings[AppConst.controlBotEnabled] == '1';
+    controlBotConfig = {
+      'chatId': settings[AppConst.controlBotChatId] ?? '',
+      'apiUrl': settings[AppConst.controlBotApiUrl] ?? '',
+    };
+    final tokenResult = await readSecretNative('control_bot');
+    if (tokenResult.isSuccess && tokenResult.data != null) {
+      controlBotConfig = {...controlBotConfig, 'token': tokenResult.data!};
+    }
     notifyListeners();
   }
 
@@ -326,6 +343,40 @@ class AppState extends ChangeNotifier with WidgetsBindingObserver {
     this.deviceLabel = deviceLabel;
 
     notifyListeners();
+    return okResult();
+  }
+
+  Future<CallResult> updateControlBot({
+    bool? enabled,
+    Map<String, dynamic>? config,
+  }) async {
+    final resolvedEnabled = enabled ?? controlBotEnabled;
+    final resolvedConfig = config ?? controlBotConfig;
+    final token = (resolvedConfig['token'] as String?) ?? '';
+    final chatId = (resolvedConfig['chatId'] as String?) ?? '';
+    final apiUrl = (resolvedConfig['apiUrl'] as String?) ?? '';
+
+    // Save or delete token in secure storage
+    if (token.isNotEmpty) {
+      final secretResult = await saveSecretNative('control_bot', token);
+      if (!secretResult.isSuccess) return secretResult;
+    } else {
+      await deleteSecretNative('control_bot');
+    }
+
+    // Save other settings to DB
+    await MainDb.instance.saveSettings({
+      AppConst.controlBotEnabled: resolvedEnabled ? '1' : '0',
+      AppConst.controlBotChatId: chatId,
+      AppConst.controlBotApiUrl: apiUrl,
+    });
+
+    controlBotEnabled = resolvedEnabled;
+    controlBotConfig = resolvedConfig;
+    notifyListeners();
+
+    // Signal native side to restart poller with new config
+    await updateControlBotNative();
     return okResult();
   }
 

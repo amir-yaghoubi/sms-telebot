@@ -161,6 +161,15 @@ class MainActivity : FlutterActivity() {
                         WorkManager.getInstance(applicationContext).cancelAllWork()
                         result.success(null)
                     }
+                    "updateControlBot" -> {
+                        // Signal ForegroundService to reload its polling config.
+                        // DB settings are already saved by the Dart side before this call.
+                        val reloadIntent = Intent(this, ForegroundService::class.java).apply {
+                            action = ForegroundService.ACTION_RELOAD_CONTROL_BOT
+                        }
+                        startService(reloadIntent)
+                        result.success(null)
+                    }
 
                     else -> result.notImplemented()
                 }

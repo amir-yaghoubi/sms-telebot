@@ -783,6 +783,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'To start monitoring, please grant the required permissions.'**
   String get warn_permissionsRequired;
+
+  /// No description provided for @twoWay.
+  ///
+  /// In en, this message translates to:
+  /// **'Two-way SMS'**
+  String get twoWay;
+
+  /// No description provided for @twoWay_help.
+  ///
+  /// In en, this message translates to:
+  /// **'Reply to forwarded messages or use /send <number> <text> in the configured bot to send SMS from this device.'**
+  String get twoWay_help;
+
+  /// No description provided for @twoWay_enable.
+  ///
+  /// In en, this message translates to:
+  /// **'Enable two-way SMS'**
+  String get twoWay_enable;
+
+  /// No description provided for @twoWay_permissionWarning.
+  ///
+  /// In en, this message translates to:
+  /// **'SMS send permission required. Open the app and grant it.'**
+  String get twoWay_permissionWarning;
 }
 
 class _AppLocalizationsDelegate

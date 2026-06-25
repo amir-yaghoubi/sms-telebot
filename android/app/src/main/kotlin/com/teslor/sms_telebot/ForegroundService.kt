@@ -10,24 +10,43 @@ import android.app.Service
 import android.content.Intent
 import android.os.Build
 import android.os.IBinder
+import android.util.Log
 import androidx.core.app.NotificationCompat
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.launch
 
 /**
  * Runs permanently in the background and provides a notification.
+ * Also manages the TelegramPoller coroutine for two-way SMS.
  */
 class ForegroundService : Service() {
 
     companion object {
+        private const val TAG = "ForegroundService"
         private const val CHANNEL_ID = "sms_telebot_foreground"
         private const val NOTIFICATION_ID = 1002
+        const val ACTION_RELOAD_CONTROL_BOT = "com.teslor.sms_telebot.RELOAD_CONTROL_BOT"
     }
+
+    private val serviceScope = CoroutineScope(Dispatchers.IO + SupervisorJob())
+    private var pollerJob: Job? = null
 
     override fun onCreate() {
         super.onCreate()
         createNotificationChannel()
+        startPollerIfEnabled()
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        if (intent?.action == ACTION_RELOAD_CONTROL_BOT) {
+            Log.d(TAG, "Reloading control bot config")
+            restartPoller()
+            return START_STICKY
+        }
+
         val launchIntent = Intent(this, MainActivity::class.java).apply {
             addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP)
         }
@@ -48,16 +67,44 @@ class ForegroundService : Service() {
             .setContentIntent(contentIntent)
             .build()
 
-        // Repeated starts are safe: Android updates the same foreground notification
         startForeground(NOTIFICATION_ID, notification)
-
-        // Restart service after process termination if needed
+        startPollerIfEnabled()
         return START_STICKY
+    }
+
+    override fun onDestroy() {
+        pollerJob?.cancel()
+        serviceScope.coroutineContext[Job]?.cancel()
+        super.onDestroy()
+        Log.d(TAG, "Service destroyed, poller cancelled")
     }
 
     override fun onBind(intent: Intent?): IBinder? = null
 
-    // Create a notification channel for Android 8.0+
+    private fun startPollerIfEnabled() {
+        val dbManager = DbManager.getInstance(this)
+        if (!dbManager.getBoolSetting("controlBotEnabled")) return
+
+        val tokenResult = SecureStorageManager.getInstance(this).readSecret("control_bot")
+        if (!tokenResult.isSuccess || tokenResult.data.isNullOrBlank()) return
+
+        pollerJob?.cancel()
+        pollerJob = serviceScope.launch {
+            val poller = TelegramPoller(
+                applicationContext,
+                dbManager,
+                SecureStorageManager.getInstance(applicationContext)
+            )
+            poller.run()
+        }
+        Log.i(TAG, "TelegramPoller started")
+    }
+
+    private fun restartPoller() {
+        pollerJob?.cancel()
+        startPollerIfEnabled()
+    }
+
     private fun createNotificationChannel() {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) return
 

@@ -111,5 +111,9 @@
   "error_unexpectedError": "Ein unerwarteter Fehler ist aufgetreten. Bitte später versuchen.",
   "error_secretsError": "Kein Zugriff auf den sicheren Speicher. Versuchen Sie es erneut. Wenn der Fehler bestehen bleibt, starten Sie die App neu und prüfen Sie Passwörter/Tokens in den Weiterleitungsregeln.",
   "warn_secretsRecovered": "Der sichere Speicher wurde nach einem Absturz wiederhergestellt. Gespeicherte Passwörter/Tokens wurden möglicherweise gelöscht. Prüfen Sie die Weiterleitungsregeln und geben Sie die Daten erneut ein.",
-  "warn_permissionsRequired": "Um mit der Überwachung zu beginnen, erteilen Sie bitte die erforderlichen Berechtigungen."
+  "warn_permissionsRequired": "Um mit der Überwachung zu beginnen, erteilen Sie bitte die erforderlichen Berechtigungen.",
+  "twoWay": "Two-way SMS",
+  "twoWay_help": "Reply to forwarded messages or use /send <number> <text> in the configured bot to send SMS from this device.",
+  "twoWay_enable": "Enable two-way SMS",
+  "twoWay_permissionWarning": "SMS send permission required. Open the app and grant it."
 }

@@ -111,5 +111,9 @@
   "error_unexpectedError": "An unexpected error occurred. Please try again later.",
   "error_secretsError": "Unable to access secure storage. Try again. If the error persists, restart the app and check passwords/tokens in the forwarding rules.",
   "warn_secretsRecovered": "Secure storage was recovered after a crash, saved passwords/tokens may have been deleted. Check the forwarding rules and enter the data again.",
-  "warn_permissionsRequired": "To start monitoring, please grant the required permissions."
+  "warn_permissionsRequired": "To start monitoring, please grant the required permissions.",
+  "twoWay": "Two-way SMS",
+  "twoWay_help": "Reply to forwarded messages or use /send <number> <text> in the configured bot to send SMS from this device.",
+  "twoWay_enable": "Enable two-way SMS",
+  "twoWay_permissionWarning": "SMS send permission required. Open the app and grant it."
 }

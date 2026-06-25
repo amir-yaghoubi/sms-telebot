@@ -9,7 +9,8 @@ import android.content.IntentFilter
 import androidx.core.content.ContextCompat
 
 /**
- * Application class that registers the device status receiver.
+ * Application class that registers the device status receiver
+ * and starts ForegroundService if control bot is configured.
  */
 class SmsTelebotApp : Application() {
 
@@ -18,6 +19,7 @@ class SmsTelebotApp : Application() {
     override fun onCreate() {
         super.onCreate()
         registerDeviceStatusReceiver()
+        startForegroundServiceIfNeeded()
     }
 
     private fun registerDeviceStatusReceiver() {
@@ -33,5 +35,17 @@ class SmsTelebotApp : Application() {
             filter,
             ContextCompat.RECEIVER_NOT_EXPORTED
         )
+    }
+
+    private fun startForegroundServiceIfNeeded() {
+        val dbManager = DbManager.getInstance(this)
+        val isRunning = dbManager.getBoolSetting("isRunning")
+        val enableForeground = dbManager.getBoolSetting("enableForeground")
+        val controlBotEnabled = dbManager.getBoolSetting("controlBotEnabled")
+        if ((isRunning && enableForeground) || controlBotEnabled) {
+            ContextCompat.startForegroundService(
+                this, Intent(this, ForegroundService::class.java)
+            )
+        }
     }
 }

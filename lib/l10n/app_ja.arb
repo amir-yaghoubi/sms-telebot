@@ -111,5 +111,9 @@
   "error_unexpectedError": "予期しないエラーが発生しました。後でもう一度お試しください。",
   "error_secretsError": "安全なストレージにアクセスできません。再試行してください。問題が続く場合はアプリを再起動し、転送ルールのパスワード/トークンを確認してください。",
   "warn_secretsRecovered": "クラッシュ後に安全なストレージが復旧されました。保存済みのパスワード/トークンが削除された可能性があります。転送ルールを確認し、データを再入力してください。",
-  "warn_permissionsRequired": "監視を開始するには、必要な権限を許可してください。"
+  "warn_permissionsRequired": "監視を開始するには、必要な権限を許可してください。",
+  "twoWay": "Two-way SMS",
+  "twoWay_help": "Reply to forwarded messages or use /send <number> <text> in the configured bot to send SMS from this device.",
+  "twoWay_enable": "Enable two-way SMS",
+  "twoWay_permissionWarning": "SMS send permission required. Open the app and grant it."
 }

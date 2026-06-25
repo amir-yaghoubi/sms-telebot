@@ -5,6 +5,7 @@ import '../styles.dart';
 import '../state.dart';
 import '../service.dart';
 import '../widgets/action_button.dart';
+import 'control_bot_settings.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
@@ -182,6 +183,8 @@ class _SettingsPageState extends State<SettingsPage> {
             ),
             onChanged: (String value) => _onSettingChanged(),
           ),
+          const Divider(),
+          const ControlBotSection(),
         ],
       ),
 

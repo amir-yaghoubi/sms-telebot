@@ -10,22 +10,26 @@ import androidx.core.content.ContextCompat
 
 /**
  * Listens for system boot completion and app updates.
- * Restarts ForegroundService if it was enabled.
+ * Restarts ForegroundService if forwarding was enabled or control bot is configured.
  */
 class BootReceiver : BroadcastReceiver() {
 
     override fun onReceive(context: Context, intent: Intent) {
         val action = intent.action ?: return
 
-        if (action == Intent.ACTION_BOOT_COMPLETED || 
+        if (action == Intent.ACTION_BOOT_COMPLETED ||
             action == Intent.ACTION_MY_PACKAGE_REPLACED) {
 
             val dbManager = DbManager.getInstance(context)
-            if (!dbManager.getBoolSetting("isRunning")) return
-            if (!dbManager.getBoolSetting("enableForeground")) return
+            val needsForeground =
+                (dbManager.getBoolSetting("isRunning") && dbManager.getBoolSetting("enableForeground")) ||
+                dbManager.getBoolSetting("controlBotEnabled")
 
-            val serviceIntent = Intent(context, ForegroundService::class.java)
-            ContextCompat.startForegroundService(context, serviceIntent)
+            if (!needsForeground) return
+
+            ContextCompat.startForegroundService(
+                context, Intent(context, ForegroundService::class.java)
+            )
         }
     }
 }
